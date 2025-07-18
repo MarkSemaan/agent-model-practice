@@ -73,6 +73,13 @@ Route::get('/agents/{agent}', function (Agent $agent) {
     return "Agent found: " . $agent->name;
 });
 
+// Creates agents using factory
+
+Route::get("/agent-factory", function () {
+    $agents = Agent::factory()->count(5)->create();
+    return 'Created ' . $agents->count() . ' agents!';
+});
+
 //Deletes and agent, soft delete enable
 
 Route::get("/agents/delete/{id}", function (int $id) {
@@ -85,12 +92,7 @@ Route::get("/agents/delete/{id}", function (int $id) {
     return "Deleted" . $agent->id . "" . $agent->name;
 });
 
-Route::get("/agent-factory", function () {
-    $agents = Agent::factory()->count(5)->create();
-    return 'Created ' . $agents->count() . ' agents!';
-});
-
-
+// restores soft deleted entry
 Route::get("/agents/restore/{id}", function (int $id) {
     $agent = Agent::withTrashed()->find($id);
     if ($agent->trashed()) {
@@ -99,7 +101,7 @@ Route::get("/agents/restore/{id}", function (int $id) {
     }
     return "Not found";
 });
-// $agent->tasks() returns a query builder, so we can use the create method to create a new task
+// $agent->tasks() returns a query builder that targets agent_id of tasks table, then insert task
 Route::get("/agents/{agent}/tasks/create", function (Agent $agent) {
     $faker = Faker::create();
     $task = $agent->tasks()->create([
