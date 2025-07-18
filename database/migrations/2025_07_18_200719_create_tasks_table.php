@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->string('status')->default('pending');
-            $table->foreignId('agent_id')->constrained('agents');
+            $table->boolean('completed')->default(false);
+            $table->foreignId('agent_id')->constrained('agents'); //Prevents invalid data
             $table->timestamps();
         });
     }

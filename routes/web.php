@@ -99,13 +99,13 @@ Route::get("/agents/restore/{id}", function (int $id) {
     }
     return "Not found";
 });
-
+// $agent->tasks() returns a query builder, so we can use the create method to create a new task
 Route::get("/agents/{agent}/tasks/create", function (Agent $agent) {
     $faker = Faker::create();
     $task = $agent->tasks()->create([
         "name" => $faker->sentence(),
         "description" => $faker->paragraph(),
-        "status" => $faker->boolean(),
+        "completed" => $faker->boolean(),
     ]);
     return "Task {$task->title} created for {$agent->name}";
 });
@@ -113,7 +113,7 @@ Route::get("/agents/{agent}/tasks/create", function (Agent $agent) {
 Route::get("/agents/{agent}/tasks/", function (Agent $agent) {
     $output = "<h1>Tasks for {$agent->name}</h1>";
     foreach ($agent->tasks as $task) {
-        $output .= "<p><strong>{$task->name}</strong> - {$task->status}</p>";
+        $output .= "<p><strong>{$task->name}</strong> - {$task->completed}</p>";
     }
 
     return $output;

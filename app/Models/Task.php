@@ -9,7 +9,7 @@ class Task extends Model
     protected $fillable = [
         'name',
         'description',
-        'status',
+        'completed',
         'agent_id',
     ];
 
@@ -21,5 +21,10 @@ class Task extends Model
     public function agent()
     {
         return $this->belongsTo(Agent::class);
+    }
+
+    public function getCompletedAttribute($value)
+    {
+        return $value ? 'Completed' : 'Pending';
     }
 }
