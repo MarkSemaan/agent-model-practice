@@ -83,6 +83,8 @@ Route::get("/agents/delete/{id}", function (int $id) {
     return "Deleted" . $agent->id . "" . $agent->name;
 });
 
+// Restores soft deleted entry
+
 Route::get("/agents/restore/{id}", function (int $id) {
     $agent = Agent::withTrashed()->find($id);
     if ($agent->trashed()) {
