@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('agents', function (Blueprint $table) {
-            $table->id();
+            $table->id(); //Auto incrementing primary key
+            $table->string('name'); //Agent's name
+            $table->text('description'); //What it does
+            $table->string('type'); //Type of Ai
+            $table->boolean('is_active')->default(true); //Is active or not
             $table->timestamps();
         });
     }
